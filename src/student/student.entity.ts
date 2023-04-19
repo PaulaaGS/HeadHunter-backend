@@ -5,19 +5,18 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
-import { IsEmail, Max, Min } from 'class-validator';
+import { IsEmail, Max, MaxLength, Min } from 'class-validator';
 import { ExpectedTypeWork } from '../enums/expected-type-work';
 import { ExpectedContractType } from '../enums/expected-contract-type';
-import { Hr } from '../hr/hr.entity';
+import { HR } from '../hr/hr.entity';
 
 @Entity()
-@Unique(['email'])
+@Unique(['email', 'githubUsername'])
 export class Student {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({
-    type: 'varchar',
     length: 350,
   })
   @IsEmail()
@@ -42,7 +41,6 @@ export class Student {
 
   @Column({
     length: 40,
-    unique: true,
   })
   githubUsername: string;
 
@@ -110,7 +108,7 @@ export class Student {
     default: null,
     nullable: true,
   })
-  @Max(10000)
+  @MaxLength(10000)
   education: string;
 
   @Column({
@@ -118,7 +116,7 @@ export class Student {
     default: null,
     nullable: true,
   })
-  @Max(10000)
+  @MaxLength(10000)
   workExperience: string;
 
   @Column({
@@ -126,7 +124,7 @@ export class Student {
     default: null,
     nullable: true,
   })
-  @Max(10000)
+  @MaxLength(10000)
   courses: string;
 
   @Column({
@@ -180,6 +178,6 @@ export class Student {
   })
   bonusProjectUrls: string[];
 
-  @ManyToOne(() => Hr, (hr) => hr.students)
-  hr: Hr;
+  @ManyToOne(() => HR, (hr) => hr.students)
+  hr: HR;
 }

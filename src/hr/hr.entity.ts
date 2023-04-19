@@ -10,12 +10,11 @@ import { Student } from '../student/student.entity';
 
 @Entity()
 @Unique(['email'])
-export class Hr {
+export class HR {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({
-    type: 'varchar',
     length: 350,
   })
   @IsEmail()
