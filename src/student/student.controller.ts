@@ -8,6 +8,6 @@ export class StudentController {
 
   @Get('/list-all')
   signup(@Body() dto: StudentDto) {
-    return this.studentService.listAll(dto);
+    return this.studentService.listAll();
   }
 }
