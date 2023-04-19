@@ -8,17 +8,20 @@ export class AuthController {
   }
 
   @Post("/signup")
-  signup(@Body() dto: AuthDto) {
+  async signup(@Body() dto: AuthDto) {
     return this.authService.signUp(dto);
   }
 
   @Post("/signin")
-  signin(@Body() dto: AuthDto) {
+  async signin(@Body() dto: AuthDto) {
     return this.authService.signIn(dto);
   }
 
   @Get("/refresh")
   refresh() {}
   /** na chwilę obecną nie mam na to pomysłu */
+
+  @Get("/logout")
+  async logOut() {}
 
 }
