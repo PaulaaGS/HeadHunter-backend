@@ -71,7 +71,7 @@ export class Student {
   expectedTypeWork: ExpectedTypeWork;
 
   @Column({
-    length: 30,
+    length: 60,
     default: null,
     nullable: true,
   })
