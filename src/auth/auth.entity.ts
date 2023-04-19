@@ -6,12 +6,12 @@ export class User extends BaseEntity {
     id: string;
 
     @Column({
-        length: 60,
+        length: 345,
     })
     email: string;
 
     @Column()
-    pwdHash: string;
+    passwordHash: string;
 
     @Column({
         nullable: true,
