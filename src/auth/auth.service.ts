@@ -10,10 +10,12 @@ export class AuthService {
 
   /** zamiast ANY wstawimy tam nazwe z entity. Np User, Student czy jak to sobie nazwiemy  */
 
-  async signup(authDto: AuthDto):Promise<any> {
+  async signUp(authDto: AuthDto):Promise<any> {
 
   }
 
-  async signin(authDto: AuthDto)
+  async signIn(authDto: AuthDto) {
+
+  }
 
 }

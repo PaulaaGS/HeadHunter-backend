@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Post } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto/auth.dto";
 
@@ -9,11 +9,16 @@ export class AuthController {
 
   @Post("/signup")
   signup(@Body() dto: AuthDto) {
-    return this.authService.signup(dto);
+    return this.authService.signUp(dto);
   }
 
   @Post("/signin")
   signin(@Body() dto: AuthDto) {
-    return this.authService.signin(dto);
+    return this.authService.signIn(dto);
   }
+
+  @Get("/refresh")
+  refresh() {}
+  /** na chwilę obecną nie mam na to pomysłu */
+
 }
