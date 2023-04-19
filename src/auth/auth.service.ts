@@ -1,6 +1,7 @@
 import {  Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthDto } from "./dto/auth.dto";
+import {User} from "./auth.entity";
 
 @Injectable()
 export class AuthService {
@@ -14,7 +15,20 @@ export class AuthService {
 
   }
 
-  async signIn(authDto: AuthDto) {
+  async signIn(authDto: AuthDto, res) {
+      console.log(authDto);
+      try {
+          const user = await User.findOneBy({
+              email: authDto.email,
+              passwordHash: authDto.password,
+          });
+          if (!user) {
+              return res.json({message: 'Invalid signIn data'})
+          }
+          console.log(user);
+      }catch (e){
+          return res.json({message: 'login successful'})
+      }
 
   }
 
