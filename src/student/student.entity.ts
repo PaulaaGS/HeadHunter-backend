@@ -41,7 +41,8 @@ export class Student {
   lastName: string;
 
   @Column({
-    length: 40,
+    nullable: true,
+    length: 255,
   })
   githubUsername: string;
 
