@@ -31,7 +31,7 @@ export class StudentDto {
   @IsArray()
   bonusProjectUrls: string[];
 
-  @MaxLength(255)
+  @MaxLength(40)
   githubUsername: string;
 
   @MinLength(2)
