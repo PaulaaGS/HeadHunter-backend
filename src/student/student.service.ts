@@ -72,7 +72,7 @@ export class StudentService {
       // compulsory data to insert into Student table
       studentData.firstName = '';
       studentData.lastName = '';
-      studentData.githubUsername = studentData.email; // @TODO Unique index required unique value
+      studentData.githubUsername = '';
       studentData.projectUrls = [];
 
       const student = await this.studentRepository
