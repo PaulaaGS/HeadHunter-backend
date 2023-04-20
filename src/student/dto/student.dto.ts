@@ -12,19 +12,19 @@ export class StudentDto {
   @MaxLength(190)
   email: string;
 
-  @Min(1)
+  @Min(0)
   @Max(5)
   courseCompletion: number;
 
-  @Min(1)
+  @Min(0)
   @Max(5)
   courseEngagement: number;
 
-  @Min(1)
+  @Min(0)
   @Max(5)
   projectDegree: number;
 
-  @Min(1)
+  @Min(0)
   @Max(5)
   teamProjectDegree: number;
 
