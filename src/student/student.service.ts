@@ -1,21 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import { StudentDto } from './dto/student.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Student } from './student.entity';
+import { Repository } from 'typeorm';
+import {
+  CreateStudentResponse,
+  GetListOfStudentsResponse,
+  UpdateStudentResponse,
+} from '../interfaces/student';
 
 @Injectable()
 export class StudentService {
-  constructor() {}
+  constructor(
+    @InjectRepository(Student)
+    private studentRepository: Repository<Student>,
+  ) {}
 
-  async listAllStudents(): Promise<void> {}
-
-  async getStudentById(id: string) {
-    // await NazwaZentity.getOne(id)
+  async getListOfStudents(): Promise<GetListOfStudentsResponse> {
+    return await this.studentRepository.find();
   }
 
-  async updateStudent(id: string) {}
+  async getOneStudent(id: string): Promise<Student> {
+    return await this.studentRepository.findOneByOrFail({ id });
+  }
 
-  async createStudent(newStudent: StudentDto) {}
+  async removeStudent(id: string): Promise<void> {
+    await this.studentRepository.delete(id);
+  }
 
-  async removeStudent(id: string) {
-    // await NazwaZentity.delete(id)
+  async createStudent(newStudent: Student): Promise<CreateStudentResponse> {
+    return await this.studentRepository.save(newStudent);
+  }
+
+  async updateStudent(
+    id: string,
+    updatedStudent: Student,
+  ): Promise<UpdateStudentResponse> {
+    await this.studentRepository.update(id, updatedStudent);
+    return this.getOneStudent(id);
   }
 }
