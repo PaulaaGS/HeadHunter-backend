@@ -48,4 +48,9 @@ export class StudentController {
   ): Promise<UpdateStudentResponse> {
     return this.studentService.updateStudent(id, updatedStudent);
   }
+
+  @Post('/import')
+  importStudentsCsv(@Body() csvFile: string) {
+    return this.studentService.importStudentsCsv(csvFile);
+  }
 }

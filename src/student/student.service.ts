@@ -7,6 +7,8 @@ import {
   GetListOfStudentsResponse,
   UpdateStudentResponse,
 } from '../interfaces/student';
+import { dummyCSV, StudentDto } from './dto/student.dto';
+import * as Papa from 'papaparse';
 
 @Injectable()
 export class StudentService {
@@ -37,5 +39,57 @@ export class StudentService {
   ): Promise<UpdateStudentResponse> {
     await this.studentRepository.update(id, updatedStudent);
     return this.getOneStudent(id);
+  }
+
+  async importStudentsCsv(csvFile: string) {
+    // @TODO fix validator issue
+    const arrayOfCsvHeaders = [
+      'courseCompletion',
+      'courseEngagement',
+      'projectDegree',
+      'teamProjectDegree',
+    ];
+    const csvParsed: StudentDto[] = Papa.parse(dummyCSV, {
+      header: true,
+      transform: function (value, header) {
+        if (arrayOfCsvHeaders.includes(header)) {
+          return Number(value.replace(',', '.')).toFixed(2);
+        } else {
+          return value;
+        }
+      },
+    }).data;
+
+    for (const studentCsvData of csvParsed) {
+      const studentData = new StudentDto();
+      studentData.email = studentCsvData.email;
+      studentData.courseCompletion = studentCsvData.courseCompletion;
+      studentData.courseEngagement = studentCsvData.courseEngagement;
+      studentData.projectDegree = studentCsvData.projectDegree;
+      studentData.teamProjectDegree = studentCsvData.teamProjectDegree;
+      studentData.bonusProjectUrls = studentCsvData.bonusProjectUrls;
+
+      // compulsory data to insert into Student table
+      studentData.firstName = '';
+      studentData.lastName = '';
+      studentData.githubUsername = studentData.email; // @TODO Unique index required unique value
+      studentData.projectUrls = [];
+
+      const student = await this.studentRepository
+        .createQueryBuilder('S')
+        .select(['S.id', 'S.email'])
+        .where('S.email = :email', { email: studentData.email })
+        .getOne();
+
+      let studentId: string;
+      if (!student) {
+        const newStudent = await this.studentRepository
+          .createQueryBuilder('S')
+          .insert()
+          .values(studentData)
+          .execute();
+        studentId = newStudent.identifiers[0].id;
+      }
+    }
   }
 }
