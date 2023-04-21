@@ -29,7 +29,23 @@ export class StudentController {
   @Get('/:id')
   getOneStudent(@Param('id') id: string): Promise<GetOneStudentResponse> {
     return this.studentService.getOneStudent(id);
+
+
   }
+  /**metoda GET /available-list do pobrania listy dostępnych studentów
+   dodanie logiki w student service, żeby pobrać kursantów bez przypisanego HR lub rezerwacja przedawniona (10 dni od zarezerwowania) */
+
+
+  @Get('/available-list')
+  getAvailableStudent(): Promise<GetListOfStudentsResponse[]> {
+
+    return this.studentService.getAvailableStudent()
+  }
+
+
+
+
+
 
   @Delete('/:id')
   removeStudent(@Param('id') id: string): Promise<void> {
