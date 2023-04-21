@@ -18,6 +18,13 @@ export class StudentService {
   ) {
   }
 
+  filter(student: Student): GetListOfStudentsResponse {
+    const { id, email, phoneNumber, firstName, lastName, githubUsername, portfolioUrls, projectUrls, bio, expectedTypeWork, targetWorkCity, expectedContractType, expectedSalary, canTakeApprenticeship, monthsOfCommercialExp, education, workExperience, courses, courseCompletion, courseEngagement, projectDegree, teamProjectDegree, bonusProjectUrls, hrID} = student
+
+
+    return {id,  email, phoneNumber, firstName, lastName, githubUsername, portfolioUrls, projectUrls, bio, expectedTypeWork, targetWorkCity, expectedContractType, expectedSalary, canTakeApprenticeship, monthsOfCommercialExp, education, workExperience, courses, courseCompletion, courseEngagement, projectDegree, teamProjectDegree, bonusProjectUrls, hrID};
+  }
+
   async getListOfStudents(): Promise<GetListOfStudentsResponse> {
     return await this.studentRepository.find();
   }
@@ -45,10 +52,10 @@ export class StudentService {
 
 
   async getAvailableStudent(): Promise<GetListOfStudentsResponse[]> {
-   return await this.studentRepository.find();
+   return await (await this.studentRepository.find()).map(this.filter);
   }
 
-
+/**  chciałbym jakoś przefiltrować całego studenta i wyświetlić tylko tych którzy są bez HRa*/
 
 
 
