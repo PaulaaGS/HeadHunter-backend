@@ -46,6 +46,7 @@ export class StudentDto {
 
   @IsArray()
   projectUrls: string[];
+
 }
 
 export const dummyCSVWithProblematicData = `email;courseCompletion;courseEngagement;projectDegree;teamProjectDegree;bonusProjectUrls
