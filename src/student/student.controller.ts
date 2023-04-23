@@ -16,6 +16,7 @@ import {
   GetOneStudentResponse,
   UpdateStudentResponse,
 } from '../interfaces/student';
+import { StudentDto } from "./dto/student.dto";
 
 @Controller('student')
 export class StudentController {
@@ -33,17 +34,13 @@ export class StudentController {
 
   }
   /**metoda GET /available-list do pobrania listy dostępnych studentów
-   dodanie logiki w student service, żeby pobrać kursantów bez przypisanego HR lub rezerwacja przedawniona (10 dni od zarezerwowania) */
+   dodanie logiki w student service, żeby pobrać kursantów bez przypisanego HR  */
 
 
   @Get('/available-list')
-  getAvailableStudent(): Promise<GetListOfStudentsResponse[]> {
-
-    return this.studentService.getAvailableStudent()
+  getAvailableStudents(): Promise<GetListOfStudentsResponse> {
+    return this.studentService.getAvailableStudents()
   }
-
-
-
 
 
 

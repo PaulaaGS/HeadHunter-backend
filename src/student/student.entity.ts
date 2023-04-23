@@ -179,8 +179,6 @@ export class Student {
   })
   bonusProjectUrls: string[];
 
-  @Column('uuid')
-  hrId: string;
 
   @ManyToOne(() => HR, (hr) => hr.students)
   hr: HR;

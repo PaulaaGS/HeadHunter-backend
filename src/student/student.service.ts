@@ -18,12 +18,6 @@ export class StudentService {
   ) {
   }
 
-  filter(student: Student): GetListOfStudentsResponse {
-    const {  hrId} = student
-
-
-    return { hrId};
-  }
 
   async getListOfStudents(): Promise<GetListOfStudentsResponse> {
     return await this.studentRepository.find();
@@ -50,12 +44,25 @@ export class StudentService {
   }
 
 
+  async getAvailableStudents(): Promise<GetListOfStudentsResponse> {
+    /**  pobrać kursantów bez przypisanego HRa*/
 
-  async getAvailableStudent(): Promise<GetListOfStudentsResponse[]> {
-   return await (await this.studentRepository.find()).map(this.filter());
+    // wyświetlam wszystkich studentów
+
+    const students = await this.studentRepository.find();
+    console.log(students);
+
+    //zwracam dostępnych metodą find
+    /** tS2339: Property 'find' does not exist on type '() => Promise'*/
+
+    return this.getAvailableStudents.find({
+      where: {
+        students
+      },
+      relations: ["hr"]
+    });
   }
 
-/**  chciałbym jakoś przefiltrować całego studenta i wyświetlić tylko tych którzy są bez HRa*/
 
 
 
