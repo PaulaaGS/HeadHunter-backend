@@ -1,10 +1,11 @@
 import {
+  BaseEntity,
   Column,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
-  Unique,
-} from 'typeorm';
+  Unique
+} from "typeorm";
 import { IsEmail, Max, MaxLength, Min } from 'class-validator';
 import { ExpectedTypeWork } from '../enums/expected-type-work';
 import { ExpectedContractType } from '../enums/expected-contract-type';
@@ -13,7 +14,7 @@ import { HR } from '../hr/hr.entity';
 @Entity()
 @Unique(['email'])
 @Unique(['githubUsername'])
-export class Student {
+export class Student extends BaseEntity{
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
