@@ -1,6 +1,8 @@
 import {Body, Controller, Get, Post, Res} from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto/auth.dto";
+import {Response} from "express";
+import {ResetDto} from "./dto/reset.dto";
 
 @Controller("/auth")
 export class AuthController {
@@ -16,6 +18,12 @@ export class AuthController {
   async signin(@Body() dto: AuthDto,
                @Res() res: Response) {
     return this.authService.signIn(dto, res);
+  }
+
+  @Post("/recover")
+  async recover(@Body() dto: ResetDto,
+                @Res() res: Response) {
+    return this.authService.resetPassword(dto, res);
   }
 
   @Get("/refresh")
