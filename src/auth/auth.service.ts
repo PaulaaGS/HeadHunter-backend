@@ -38,7 +38,6 @@ export class AuthService {
         } while (!!userWithThisToken);
         user.accessToken = token;
         await user.save();
-
         return token;
     }
 
@@ -62,21 +61,23 @@ export class AuthService {
                 passwordHash: hashPwd(authDto.password),
             });
             if (!user) {
-                return res.json({message: 'Invalid signIn data'})
+                return res.status(404);
             }
             const token = await this.createToken(await this.generateToken(user));
-            console.log(token);
-            console.log(user);
+            const {id, accessToken, email} = user;
             return res
                 .cookie('jwt', token.accessToken, {
                     secure: false, //tu ustawiamy true jeśli jest https (czyli na produkcji)
                     domain: 'localhost', //tu domenę
-                    httpOnly: true, //dzięki temu front nie widzi ciastek jwt
+                    httpOnly: true,
                     sameSite: 'lax',
                 })
-                .json({message: 'Login successful.'});
+                .status(200)
+                .json({id, accessToken});
         } catch (e) {
-            return res.json({message: e.message});
+            return res
+                .status(404)
+                .json({message: e.message});
         }
     }
 
@@ -87,7 +88,7 @@ export class AuthService {
                 accessToken: resetDto.token,
             });
             if (!user) {
-                return res.json({message: 'Incorrect data'})
+                return res.status(404)
             }
             console.log(user);
             user.passwordHash = hashPwd(resetDto.password);
@@ -95,7 +96,9 @@ export class AuthService {
             const { email, id } = user;
             return { id, email };
         }catch (e) {
-            return res.json({message: e.message});
+            return res
+                .status(404)
+                .json({message: e.message});
         }
     }
 
