@@ -9,6 +9,7 @@ import {
 } from "../interfaces/student";
 import { dummyCSV, StudentDto } from "./dto/student.dto";
 import * as Papa from "papaparse";
+import { HR } from "src/hr/hr.entity";
 
 @Injectable()
 export class StudentService {
@@ -45,28 +46,17 @@ export class StudentService {
 
 
   async getAvailableStudents(): Promise<GetListOfStudentsResponse> {
-    /**  pobrać kursantów bez przypisanego HRa*/
-
-    // wyświetlam wszystkich studentów
-
-    const students = await this.studentRepository.find();
-    console.log(students);
-
-    //zwracam dostępnych metodą find
-    /** tS2339: Property 'find' does not exist on type '() => Promise'*/
-
-    return this.getAvailableStudents.find({
-      where: {
-        students
-      },
-      relations: ["hr"]
-    });
+   return await this.studentRepository.find({
+        relations: ["hr"]
+     });
   }
+  /** ERROR [ExceptionsHandler] Could not find any entity of type "Student" matching: {"id": "available-list"*/
 
 
 
 
-  async importStudentsCsv(csvFile: string) {
+
+    async importStudentsCsv(csvFile: string) {
     // @TODO fix validator issue
     const arrayOfCsvHeaders = [
       "courseCompletion",
