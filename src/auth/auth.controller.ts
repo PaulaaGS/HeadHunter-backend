@@ -26,3 +26,4 @@ export class AuthController {
                 @Res() res: Response) {
     return this.authService.resetPassword(dto, res);
   }
+}
