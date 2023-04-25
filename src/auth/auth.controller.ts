@@ -26,12 +26,3 @@ export class AuthController {
                 @Res() res: Response) {
     return this.authService.resetPassword(dto, res);
   }
-
-  @Get("/refresh")
-  refresh() {}
-  /** na chwilę obecną nie mam na to pomysłu */
-
-  @Get("/logout")
-  async logOut() {}
-
-}

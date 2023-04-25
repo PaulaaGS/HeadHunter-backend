@@ -63,7 +63,7 @@ export class AuthService {
                 passwordHash: hashPwd(authDto.password),
             });
             if (!user) {
-                return res.status(404);
+                return res.status(404).end();
             }
             const token = await this.createToken(await this.generateToken(user));
             const {id, accessToken} = user;
@@ -79,7 +79,8 @@ export class AuthService {
         } catch (e) {
             return res
                 .status(404)
-                .json({message: e.message});
+                .json({message: e.message})
+                .end();
         }
     }
 
@@ -89,8 +90,8 @@ export class AuthService {
             const user = await User.findOneBy({
                 accessToken: resetDto.token,
             });
-            if (!user) {
-                return res.status(404)
+            if (user === null) {
+                return res.status(404).end();
             }
             console.log(user);
             user.passwordHash = hashPwd(resetDto.password);
@@ -100,7 +101,8 @@ export class AuthService {
         }catch (e) {
             return res
                 .status(404)
-                .json({message: e.message});
+                .json({message: e.message})
+                .end();
         }
     }
 
