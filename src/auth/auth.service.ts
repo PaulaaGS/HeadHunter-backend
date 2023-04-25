@@ -44,14 +44,16 @@ export class AuthService {
 
     /** zamiast ANY wstawimy tam nazwe z entity. Np User, Student czy jak to sobie nazwiemy  */
 
-    async signUp(authDto: AuthDto): Promise<any> {
+    async signUp(authDto: AuthDto, res: Response): Promise<any> {
         const user = new User();
         user.email = authDto.email;
         user.passwordHash = hashPwd(authDto.password);
         console.log(user);
         await user.save();
         const { email, id } = user;
-        return { id, email };
+        return res
+            .status(202)
+            .json({id, email});
     }
 
     async signIn(authDto: AuthDto, res: Response) {
@@ -64,7 +66,7 @@ export class AuthService {
                 return res.status(404);
             }
             const token = await this.createToken(await this.generateToken(user));
-            const {id, accessToken, email} = user;
+            const {id, accessToken} = user;
             return res
                 .cookie('jwt', token.accessToken, {
                     secure: false, //tu ustawiamy true jeśli jest https (czyli na produkcji)
