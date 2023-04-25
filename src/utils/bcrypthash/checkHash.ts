@@ -13,7 +13,6 @@ export const checkHash = async (
       ErrorMessage.InternalServerError,
       HttpStatus.INTERNAL_SERVER_ERROR,
     );
-  }
 };
 
 /** sprawdzenie hasła, któe można importować i korzystać z nich
