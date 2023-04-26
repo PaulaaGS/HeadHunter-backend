@@ -33,13 +33,12 @@ export class StudentController {
   }
 
   /**metoda GET /available-list do pobrania listy dostępnych studentów
-   dodanie logiki w student service, żeby pobrać kursantów bez przypisanego HR  */
+   bez przypisanego HR  */
 
   @Get('/available-list')
   getAvailableStudents(): Promise<GetListOfStudentsResponse> {
     return this.studentService.getAvailableStudents()
   }
-
 
 
   @Delete('/:id')
