@@ -44,17 +44,14 @@ export class StudentService {
   }
 
   /** pobierz kursantów bez przypisanego hr */
-//   async getAvailableStudents(): Promise<GetListOfStudentsResponse> {
-//    return await this.studentRepository.find({
-//         relations: ["hr"]
-//      });
-//   }
+
 
   async getAvailableStudents(): Promise<GetListOfStudentsResponse> {
     return await this.studentRepository.find({
       where: {
-        hr: false
-      }
+        hr: null
+      },
+      relations: ["hr"]
     });
   }
 /**  sprawdz czy ma rezerwacje, jezeli tak, sprawdz czy jest dluższa niz 10 dni*/

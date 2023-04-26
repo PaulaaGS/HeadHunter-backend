@@ -27,10 +27,7 @@ export class StudentController {
     return this.studentService.getListOfStudents();
   }
 
-  @Get('/:id')
-  getOneStudent(@Param('id') id: string): Promise<GetOneStudentResponse> {
-    return this.studentService.getOneStudent(id);
-  }
+
 
   /**metoda GET /available-list do pobrania listy dostępnych studentów
    bez przypisanego HR  */
@@ -39,7 +36,10 @@ export class StudentController {
   getAvailableStudents(): Promise<GetListOfStudentsResponse> {
     return this.studentService.getAvailableStudents()
   }
-
+  @Get('/:id')
+  getOneStudent(@Param('id') id: string): Promise<GetOneStudentResponse> {
+    return this.studentService.getOneStudent(id);
+  }
 
   @Delete('/:id')
   removeStudent(@Param('id') id: string): Promise<void> {
