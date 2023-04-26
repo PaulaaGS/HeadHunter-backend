@@ -41,14 +41,10 @@ export class AuthService {
         return token;
     }
 
-
-    /** zamiast ANY wstawimy tam nazwe z entity. Np User, Student czy jak to sobie nazwiemy  */
-
     async signUp(authDto: AuthDto, res: Response): Promise<any> {
         const user = new User();
         user.email = authDto.email;
         user.passwordHash = hashPwd(authDto.password);
-        console.log(user);
         await user.save();
         const { email, id } = user;
         return res
@@ -86,14 +82,12 @@ export class AuthService {
 
     async resetPassword(resetDto: ResetDto, res: Response) {
         try {
-            console.log(resetDto.token);
             const user = await User.findOneBy({
                 accessToken: resetDto.token,
             });
             if (user === null) {
                 return res.status(404).end();
             }
-            console.log(user);
             user.passwordHash = hashPwd(resetDto.password);
             await user.save();
             const { email, id } = user;
