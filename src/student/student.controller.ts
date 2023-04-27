@@ -22,6 +22,7 @@ import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import * as path from 'path';
 import { storageDir } from '../utils/storage-csv';
 import { MulterDiskUploadedFiles } from '../interfaces/multer-files';
+import { Criteria } from '../interfaces/criteria';
 
 @Controller('student')
 export class StudentController {
@@ -45,6 +46,13 @@ export class StudentController {
   @Post('/')
   createStudent(@Body() newStudent: Student): Promise<CreateStudentResponse> {
     return this.studentService.createStudent(newStudent);
+  }
+
+  @Post('/filter')
+  filterStudents(
+    @Body() criteria: Criteria,
+  ): Promise<GetListOfStudentsResponse> {
+    return this.studentService.getListOfStudentsFiltered(criteria);
   }
 
   @Put('/:id')

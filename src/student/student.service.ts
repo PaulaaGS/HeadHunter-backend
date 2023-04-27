@@ -19,6 +19,7 @@ import { unlink } from 'node:fs/promises';
 import { storageDir } from '../utils/storage-csv';
 import { readFile } from 'fs/promises';
 import { filterGithubUrls } from '../utils/filter-github-urls';
+import { Criteria } from '../interfaces/criteria';
 
 @Injectable()
 export class StudentService {
@@ -29,6 +30,89 @@ export class StudentService {
 
   async getListOfStudents(): Promise<GetListOfStudentsResponse> {
     return await this.studentRepository.find();
+  }
+
+  async getListOfStudentsFiltered(
+    criteria: Criteria,
+  ): Promise<GetListOfStudentsResponse> {
+    const queryBuilder = this.studentRepository.createQueryBuilder('student');
+
+    if (criteria.courseEngagement) {
+      queryBuilder.andWhere('student.courseEngagement >= :courseEngagement', {
+        courseEngagement: criteria.courseEngagement,
+      });
+    }
+
+    if (criteria.courseCompletion) {
+      queryBuilder.andWhere('student.courseCompletion >= :courseCompletion', {
+        courseCompletion: criteria.courseCompletion,
+      });
+    }
+
+    if (criteria.projectDegree) {
+      queryBuilder.andWhere('student.projectDegree >= :projectDegree', {
+        projectDegree: criteria.projectDegree,
+      });
+    }
+
+    if (criteria.teamProjectDegree) {
+      queryBuilder.andWhere('student.teamProjectDegree >= :teamProjectDegree', {
+        teamProjectDegree: criteria.teamProjectDegree,
+      });
+    }
+
+    if (criteria.expectedTypeWork && criteria.expectedTypeWork.length > 0) {
+      queryBuilder.andWhere(
+        'student.expectedTypeWork IN (:...expectedTypeWork)',
+        {
+          expectedTypeWork: criteria.expectedTypeWork,
+        },
+      );
+    }
+
+    if (
+      criteria.expectedContractType &&
+      criteria.expectedContractType.length > 0
+    ) {
+      queryBuilder.andWhere(
+        'student.expectedContractType IN (:...expectedContractType)',
+        { expectedContractType: criteria.expectedContractType },
+      );
+    }
+
+    if (criteria.expectedSalary) {
+      if (criteria.expectedSalary.min) {
+        queryBuilder.andWhere('student.expectedSalary >= :minSalary', {
+          minSalary: criteria.expectedSalary.min,
+        });
+      }
+
+      if (criteria.expectedSalary.max) {
+        queryBuilder.andWhere('student.expectedSalary <= :maxSalary', {
+          maxSalary: criteria.expectedSalary.max,
+        });
+      }
+    }
+
+    if (criteria.canTakeApprenticeship !== undefined) {
+      queryBuilder.andWhere(
+        'student.canTakeApprenticeship = :canTakeApprenticeship',
+        {
+          canTakeApprenticeship: criteria.canTakeApprenticeship,
+        },
+      );
+    }
+
+    if (criteria.monthsOfCommercialExp) {
+      queryBuilder.andWhere(
+        'student.monthsOfCommercialExp >= :monthsOfCommercialExp',
+        {
+          monthsOfCommercialExp: criteria.monthsOfCommercialExp,
+        },
+      );
+    }
+
+    return await queryBuilder.getMany();
   }
 
   async getOneStudent(id: string): Promise<Student> {
@@ -130,7 +214,9 @@ export class StudentService {
     }
   }
 
-  async importStudentsCsv(file: MulterDiskUploadedFiles): Promise<{ success: true }> {
+  async importStudentsCsv(
+    file: MulterDiskUploadedFiles,
+  ): Promise<{ success: true }> {
     // console.log(req);
     const csvFile = file?.csvFile?.[0] ?? null;
     try {
