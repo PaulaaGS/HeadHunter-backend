@@ -1,14 +1,14 @@
 export interface Criteria {
-  courseEngagement: number;
-  courseCompletion: number;
-  projectDegree: number;
-  teamProjectDegree: number;
-  expectedTypeWork: string[];
-  expectedContractType: string[];
-  expectedSalary: {
-    min: number;
-    max: number;
+  courseEngagement?: number;
+  courseCompletion?: number;
+  projectDegree?: number;
+  teamProjectDegree?: number;
+  expectedTypeWork?: string[];
+  expectedContractType?: string[];
+  expectedSalary?: {
+    min?: number;
+    max?: number;
   };
-  canTakeApprenticeship: boolean;
-  monthsOfCommercialExp: number;
+  canTakeApprenticeship?: boolean;
+  monthsOfCommercialExp?: number;
 }
