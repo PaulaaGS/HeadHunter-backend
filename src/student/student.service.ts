@@ -36,78 +36,84 @@ export class StudentService {
     criteria: Criteria,
   ): Promise<GetListOfStudentsResponse> {
     const queryBuilder = this.studentRepository.createQueryBuilder('student');
-
-    if (criteria.courseEngagement) {
+    const studentCriteria = criteria.values;
+    console.log(studentCriteria);
+    if (studentCriteria.courseEngagement) {
       queryBuilder.andWhere('student.courseEngagement >= :courseEngagement', {
-        courseEngagement: criteria.courseEngagement,
+        courseEngagement: studentCriteria.courseEngagement,
       });
     }
 
-    if (criteria.courseCompletion) {
+    if (studentCriteria.courseCompletion) {
       queryBuilder.andWhere('student.courseCompletion >= :courseCompletion', {
-        courseCompletion: criteria.courseCompletion,
+        courseCompletion: studentCriteria.courseCompletion,
       });
     }
 
-    if (criteria.projectDegree) {
+    if (studentCriteria.projectDegree) {
       queryBuilder.andWhere('student.projectDegree >= :projectDegree', {
-        projectDegree: criteria.projectDegree,
+        projectDegree: studentCriteria.projectDegree,
       });
     }
 
-    if (criteria.teamProjectDegree) {
+    if (studentCriteria.teamProjectDegree) {
       queryBuilder.andWhere('student.teamProjectDegree >= :teamProjectDegree', {
-        teamProjectDegree: criteria.teamProjectDegree,
+        teamProjectDegree: studentCriteria.teamProjectDegree,
       });
     }
 
-    if (criteria.expectedTypeWork && criteria.expectedTypeWork.length > 0) {
+    if (
+      studentCriteria.expectedTypeWork &&
+      studentCriteria.expectedTypeWork.length > 0
+    ) {
       queryBuilder.andWhere(
         'student.expectedTypeWork IN (:...expectedTypeWork)',
         {
-          expectedTypeWork: criteria.expectedTypeWork,
+          expectedTypeWork: studentCriteria.expectedTypeWork,
         },
       );
     }
 
     if (
-      criteria.expectedContractType &&
-      criteria.expectedContractType.length > 0
+      studentCriteria.expectedContractType &&
+      studentCriteria.expectedContractType.length > 0
     ) {
       queryBuilder.andWhere(
         'student.expectedContractType IN (:...expectedContractType)',
-        { expectedContractType: criteria.expectedContractType },
+        { expectedContractType: studentCriteria.expectedContractType },
       );
     }
 
-    if (criteria.expectedSalary) {
-      if (criteria.expectedSalary.min) {
+    if (studentCriteria.expectedSalary) {
+      if (studentCriteria.expectedSalary.min) {
         queryBuilder.andWhere('student.expectedSalary >= :minSalary', {
-          minSalary: criteria.expectedSalary.min,
+          minSalary: studentCriteria.expectedSalary.min,
         });
       }
 
-      if (criteria.expectedSalary.max) {
+      if (studentCriteria.expectedSalary.max) {
         queryBuilder.andWhere('student.expectedSalary <= :maxSalary', {
-          maxSalary: criteria.expectedSalary.max,
+          maxSalary: studentCriteria.expectedSalary.max,
         });
       }
     }
 
-    if (criteria.canTakeApprenticeship !== undefined) {
+    if (studentCriteria.canTakeApprenticeship !== undefined) {
+      studentCriteria.canTakeApprenticeship =
+        studentCriteria.canTakeApprenticeship === 'true';
       queryBuilder.andWhere(
         'student.canTakeApprenticeship = :canTakeApprenticeship',
         {
-          canTakeApprenticeship: criteria.canTakeApprenticeship,
+          canTakeApprenticeship: studentCriteria.canTakeApprenticeship,
         },
       );
     }
 
-    if (criteria.monthsOfCommercialExp) {
+    if (studentCriteria.monthsOfCommercialExp) {
       queryBuilder.andWhere(
         'student.monthsOfCommercialExp >= :monthsOfCommercialExp',
         {
-          monthsOfCommercialExp: criteria.monthsOfCommercialExp,
+          monthsOfCommercialExp: studentCriteria.monthsOfCommercialExp,
         },
       );
     }
