@@ -50,7 +50,7 @@ export class AuthService {
         return {
             message: 'Poprawna rejestracja',
             statusCode: 202,
-            user: user,
+            user,
         };
     }
 

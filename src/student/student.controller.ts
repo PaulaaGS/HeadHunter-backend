@@ -15,14 +15,13 @@ import {Student} from './student.entity';
 import {
     CreateStudentResponse,
     GetListOfStudentsResponse,
-    GetOneStudentResponse,
     UpdateStudentResponse,
 } from '../interfaces/student';
 import {FileFieldsInterceptor} from '@nestjs/platform-express';
 import * as path from 'path';
 import {storageDir} from '../utils/storage-csv';
 import {MulterDiskUploadedFiles} from '../interfaces/multer-files';
-import {updatedStudent} from "../../types";
+import {GetOneStudentResponse} from "../../types";
 
 @Controller('student')
 export class StudentController {
@@ -52,7 +51,7 @@ export class StudentController {
     @Put('/:id')
     updateStudent(
         @Param('id') id: string,
-        @Body() updatedStudent: updatedStudent,
+        @Body() updatedStudent: UpdateStudentResponse,
     ): Promise<UpdateStudentResponse> {
         return this.studentService.updateStudent(id, updatedStudent);
     }
