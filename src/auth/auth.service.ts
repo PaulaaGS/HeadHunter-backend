@@ -7,7 +7,7 @@ import {sign} from 'jsonwebtoken';
 import {hashPwd} from "../utils/hashPwd";
 import {Response} from "express";
 import {ResetDto} from "./dto/reset.dto";
-import {LoginResponse, SignUpResponse, ResetPasswordResponse} from "../types";
+import {LoginResponse, SignUpResponse, ResetPasswordResponse} from "../../types";
 
 
 @Injectable()

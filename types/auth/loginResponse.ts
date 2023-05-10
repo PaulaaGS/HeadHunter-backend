@@ -1,4 +1,4 @@
-import {User} from "../../auth/auth.entity";
+import {User} from "../../src/auth/auth.entity";
 
 export interface LoginResponse {
     message: string;

@@ -3,7 +3,7 @@ import { AuthService } from "./auth.service";
 import { AuthDto } from "./dto/auth.dto";
 import {Response} from "express";
 import {ResetDto} from "./dto/reset.dto";
-import {LoginResponse, ResetPasswordResponse, SignUpResponse} from "../types";
+import {LoginResponse, ResetPasswordResponse, SignUpResponse} from "../../types";
 
 @Controller("/auth")
 export class AuthController {
