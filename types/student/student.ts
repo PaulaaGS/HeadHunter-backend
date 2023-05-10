@@ -1,3 +1,6 @@
+import {ExpectedTypeWork} from "../../src/enums/expected-type-work";
+import {ExpectedContractType} from "../../src/enums/expected-contract-type";
+
 export interface GetOneStudentResponse {
     id: string;
     email: string;
@@ -5,10 +8,10 @@ export interface GetOneStudentResponse {
     courseEngagement: number;
     projectDegree: number;
     teamProjectDegree: number;
-    bonusProjectUrls: string[];
-    githubUsername: string;
-    firstName: string;
-    lastName: string;
-    projectUrls: string[];
+    expectedTypeWork: ExpectedTypeWork;
+    targetWorkCity: string;
+    expectedContractType: ExpectedContractType;
+    expectedSalary: string;
+    canTakeApprenticeship: boolean;
+    monthsOfCommercialExp: number;
 }
-
