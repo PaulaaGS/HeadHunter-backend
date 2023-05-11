@@ -37,7 +37,7 @@ export class StudentService {
   ): Promise<GetListOfStudentsResponse> {
     const queryBuilder = this.studentRepository.createQueryBuilder('student');
     const studentCriteria = criteria.values;
-    console.log(studentCriteria);
+
     if (studentCriteria.courseEngagement) {
       queryBuilder.andWhere('student.courseEngagement >= :courseEngagement', {
         courseEngagement: studentCriteria.courseEngagement,
@@ -159,6 +159,9 @@ export class StudentService {
       },
     }).data;
 
+    let savedUsers = 0;
+    let rejectedUsers = -1;
+
     for (const studentCsvData of csvParsed) {
       if (
         !(
@@ -173,6 +176,7 @@ export class StudentService {
           Number(studentCsvData.teamProjectDegree) >= 0
         )
       ) {
+        rejectedUsers++;
         continue;
       }
 
@@ -216,15 +220,26 @@ export class StudentService {
           .execute();
         studentId = newStudent.identifiers[0].id;
       }
-      // @TODO option: Consider from this place, sending (registration) email with userId if studentId !== null
+
+      if (studentId) {
+        savedUsers++;
+      }
     }
+
+    return {
+      success: true,
+      savedUsers: savedUsers,
+      rejectedUsers: rejectedUsers,
+    };
+    // @TODO option: Consider from this place, sending (registration) email with userId if studentId !== null
   }
 
   async importStudentsCsv(
     file: MulterDiskUploadedFiles,
-  ): Promise<{ success: true }> {
+  ): Promise<{ success: true; addedUsers: number }> {
     // console.log(req);
     const csvFile = file?.csvFile?.[0] ?? null;
+    let response;
     try {
       if (!csvFile || csvFile.mimetype !== 'text/csv') {
         throw new NotAcceptableException('CSV file not found');
@@ -237,7 +252,9 @@ export class StudentService {
           csvFile.filename,
         );
         const fileContent = await readFile(filePath, { encoding: 'utf8' });
-        await this.handleStudentParsingAndSavingToDatabase(fileContent);
+        response = await this.handleStudentParsingAndSavingToDatabase(
+          fileContent,
+        );
       } catch (err) {
         throw new InternalServerErrorException(
           `CSV file couldn't be read. ${err}`,
@@ -257,8 +274,6 @@ export class StudentService {
       }
     }
 
-    return {
-      success: true,
-    };
+    return response;
   }
 }
