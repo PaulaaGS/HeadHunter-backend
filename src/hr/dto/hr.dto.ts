@@ -1,11 +1,7 @@
-import { IsEmail, IsNotEmpty, Max, Min } from 'class-validator';
+import { IsNotEmpty, Max, Min } from 'class-validator';
 
 export class HRDto {
   id: string;
-
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
 
   @IsNotEmpty()
   fullName: string;
