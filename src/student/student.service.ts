@@ -187,7 +187,7 @@ export class StudentService {
   }
 
   async reserveStudent(studentId: string, hrId: string): Promise<void> {
-    const hr = await this.hrService.getOneHR(hrId);
+    const hr = await this.hrService.getHRByUserId(hrId);
     await this.studentRepository.update(studentId, { hr });
   }
 

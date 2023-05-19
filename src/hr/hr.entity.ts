@@ -1,13 +1,27 @@
-import { Max, Min } from 'class-validator';
-import { Column, Entity, OneToMany, OneToOne, PrimaryColumn } from 'typeorm';
-import { User } from '../auth/auth.entity';
+import { IsEmail, Max, Min } from 'class-validator';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  Unique,
+} from 'typeorm';
 import { Student } from '../student/student.entity';
+import { User } from '../auth/auth.entity';
 
 @Entity()
+@Unique(['email'])
 export class HR {
-  @PrimaryColumn()
-  @OneToOne(() => User, (user) => user.id)
+  @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Column({
+    length: 190,
+  })
+  @IsEmail()
+  email: string;
 
   @Column({
     length: 60,
@@ -28,4 +42,8 @@ export class HR {
 
   @OneToMany(() => Student, (student) => student.hr)
   students: Student[];
+
+  @OneToOne(() => User)
+  @JoinColumn()
+  user: User;
 }
