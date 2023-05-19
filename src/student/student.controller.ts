@@ -63,6 +63,11 @@ export class StudentController {
     return this.studentService.reserveStudent(id, user);
   }
 
+  @Put('/:id/clear-reservation')
+  clearReservation(@Param('id') id: string): Promise<void> {
+    return this.studentService.clearReservation(id);
+  }
+
   @Post('/import')
   @UseInterceptors(
     FileFieldsInterceptor(

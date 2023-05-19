@@ -191,6 +191,10 @@ export class StudentService {
     await this.studentRepository.update(studentId, { hr });
   }
 
+  async clearReservation(studentId: string): Promise<void> {
+    await this.studentRepository.update(studentId, { hr: null });
+  }
+
   async handleStudentParsingAndSavingToDatabase(csvFile: string) {
     const arrayOfCsvHeaders = [
       'courseCompletion',
