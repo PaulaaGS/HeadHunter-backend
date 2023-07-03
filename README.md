@@ -35,8 +35,8 @@ Here is a short video to show how the app works:
 
 # Getting Started
 
-Here is the backend repository of the application:  
-[HeadHunter-backend](https://github.com/PaulaaGS/HeadHunter-backend)
+Here is the frontend repository of the application:  
+[HeadHunter-frontend](https://github.com/kowalskika/HeadHunter-frontend)
 
 ## Installation
 
